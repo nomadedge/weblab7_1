@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather</title>
+    <link href="css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
+
+    <script id="weather-template" type="text/x-handlebars-template">
+        <div id="icon-temp">
+            <img src="{{iconUrl}}" alt="Weather icon"/>
+            <div id="temp">{{temperature}}°C</div>
+        </div>
+        <div>
+            <div id="description">{{description}}</div>
+            <div>Barometer {{pressure}} hPa</div>
+            <div>Humidity {{humidity}} %</div>
+            <div>Wind {{windSpeed}} m/s</div>
+        </div>
+    </script>
+
+    <script id="error-template" type="text/x-handlebars-template">
+        <div>
+            {{status}}
+            <br>
+            {{message}}
+        </div>
+    </script>
+
+
+
+
+    <div id="PageContainer">
+        <header>
+            Simple Weather Handlebars application
+        </header>
+    
+        <div id="weather-container">
+            <form id="city-form">
+                <input type="text" id="city-input">
+                <input type="submit" id="show-input">
+            </form>
+            
+        </div>
+    
+        <footer>
+            <div>
+                Check it out on
+                <a href="https://github.com/nomadedge/weblab7_1" target="_blank">
+                    GitHub
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
