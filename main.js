@@ -40,33 +40,6 @@ function getWeather(cityName) {
     }
 }
 
-    // $.ajax({
-    //     url: 'https://api.openweathermap.org/data/2.5/weather',
-    //     dataType: 'json',
-    //     data: {
-    //         q: cityName,
-    //         appId: appId
-    //     }
-    // })
-    //     .done(
-    //         function (data) {
-    //             let weather = {
-    //                 iconUrl: "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png",
-    //                 description: data.weather[0].description,
-    //                 temperature: (data.main.temp - 273.15).toFixed(0),
-    //                 pressure: data.main.pressure,
-    //                 humidity: data.main.humidity,
-    //                 windSpeed: data.wind.speed
-    //             };
-    //             renderWeather(weather);
-    //         }
-    //     )
-    //     .fail(
-    //         function (err) {
-    //             renderError(err);
-    //         }
-    //     )
-
 renderWeather = (weather) => {
     let weatherContainer = document.getElementById('weather-container');
     let html = weatherTemplate(weather);
