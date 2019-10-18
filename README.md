@@ -5,4 +5,5 @@
 ## Deployment tutorial
 1. Install node.js
 2. Install SASS globaly using command "npm install -g sass"
-3. After every change in scss file use "sass scss/site.scss css/site.css"
+3. Run "npm install" to install all dependencies
+4. After every change in scss file use "sass scss/site.scss css/site.css"
