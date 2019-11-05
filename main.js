@@ -1,7 +1,6 @@
-const appId="d5bb735f9e1ce1a846ab736fc9d95dc6";
+const openWeatherKey = "d5bb735f9e1ce1a846ab736fc9d95dc6";
 const weatherTemplate = Handlebars.compile(document.getElementById('weather-template').innerHTML);
 const errorTemplate = Handlebars.compile(document.getElementById('error-template').innerHTML);
-const request = new XMLHttpRequest();
 let globalResult;
 
 async function submit(event) {
@@ -17,50 +16,56 @@ async function submit(event) {
 }
 
 function getWeather(cityName) {
-    return new Promise(result => {
-        request.open('GET', "https://api.openweathermap.org/data/2.5/weather?q=" + event.target[0].value + "&appid=" + appId + "&mode=xml", true);
-        request.send();
-    
-        request.onreadystatechange = () => {
-            if (request.readyState !== 4) return;
-            
-            if (request.status !== 200) {
-                let error = {
-                    isOk: false,
-                    status: request.status,
-                    message: request.statusText
-                };
-                result(error);
-                return;
-            }
-    
-            let weather = {
-                isOk: true,
-                iconUrl: "http://openweathermap.org/img/w/" +
-                    request.responseXML.getElementsByTagName('weather')[0].getAttribute('icon') + ".png",
-                description: request.responseXML.getElementsByTagName('weather')[0].getAttribute('value'),
-                temperature: (request.responseXML.getElementsByTagName('temperature')[0]
-                    .getAttribute('value') - 273.15).toFixed(0),
-                pressure: request.responseXML.getElementsByTagName('pressure')[0].getAttribute('value'),
-                humidity: request.responseXML.getElementsByTagName('humidity')[0].getAttribute('value'),
-                windSpeed: request.responseXML.getElementsByTagName('wind')[0]
-                    .getElementsByTagName('speed')[0].getAttribute('value')
+    return new Promise(async result => {
+        const openWeatherUrl =
+            'https://api.openweathermap.org/data/2.5/weather?q=' +
+            cityName +
+            '&appid=' +
+            openWeatherKey;
+
+        const weatherData = await fetch(openWeatherUrl);
+        const weatherJson = await weatherData.json();
+
+        if (weatherData.ok) {
+            const weather = {
+                iconUrl:
+                    'http://openweathermap.org/img/w/' +
+                    weatherJson.weather[0].icon +
+                    '.png',
+                description: weatherJson.weather[0].description,
+                temperature: (weatherJson.main.temp - 273.15).toFixed(0),
+                pressure: weatherJson.main.pressure,
+                humidity: weatherJson.main.humidity,
+                windSpeed: weatherJson.wind.speed
             };
-            result(weather);
+            const out = {
+                isOk: true,
+                weather: weather
+            };
+            result(out);
             return;
-        }
+        } else {
+            const out = {
+                isOk: false,
+                error: {
+                    status: weatherJson.cod,
+                    message: weatherJson.message
+                }
+            };
+            result(out);
+            return;
+        };
     });
-    
 }
 
 function renderResult(result) {
     let weatherContainer = document.getElementById('weather-container');
     let html;
     if (result.isOk) {
-        html = weatherTemplate(result);
+        html = weatherTemplate(result.weather);
     }
     else {
-        html = errorTemplate(result);
+        html = errorTemplate(result.error);
     }
     let div = document.createElement('div');
     div.innerHTML = html;
