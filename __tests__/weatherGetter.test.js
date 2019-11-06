@@ -52,7 +52,7 @@ describe('Get weather function', () => {
                 }
             ));
 
-            expectedResult = {
+            const expectedResult = {
                 isOk: true,
                 weather: {
                     iconUrl: "http://openweathermap.org/img/w/50n.png",
@@ -80,7 +80,7 @@ describe('Get weather function', () => {
                 ),
                 { status: 404 });
 
-            expectedResult = {
+            const expectedResult = {
                 isOk: false,
                 error: {
                     "status": "404",
