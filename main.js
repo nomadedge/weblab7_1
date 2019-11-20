@@ -31,3 +31,6 @@ renderResult = result => {
 }
 
 document.getElementById('city-form').addEventListener('submit', submit);
+
+exports.renderResult = renderResult;
+exports.submit = submit;
