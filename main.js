@@ -6,16 +6,16 @@ const { getWeather } = require('./weatherGetter');
 submit = async event => {
     event.preventDefault();
 
-    let lastResult = document.getElementById('result-container');
-    if (lastResult) {
-        lastResult.remove();
-    }
-
     result = await getWeather(event.target[0].value);
     renderResult(result);
 }
 
 renderResult = result => {
+    let lastResult = document.getElementById('result-container');
+    if (lastResult) {
+        lastResult.remove();
+    }
+
     let weatherContainer = document.getElementById('weather-container');
     let html;
     if (result.isOk) {
@@ -33,4 +33,3 @@ renderResult = result => {
 document.getElementById('city-form').addEventListener('submit', submit);
 
 exports.renderResult = renderResult;
-exports.submit = submit;
