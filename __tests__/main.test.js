@@ -1,4 +1,6 @@
-const { renderResult } = require('../main');
+jest.mock('../weatherGetter.js');
+
+const { submit, renderResult } = require('../main');
 const { bodyHtml } = require('../setupJest');
 
 beforeEach(() => {
@@ -120,6 +122,36 @@ describe('renderResult function', () => {
         };
 
         renderResult(result);
+
+        const expectedResult =
+            '<div id="icon-temp">' +
+            '<img src="http://openweathermap.org/img/w/50n.png" alt="Weather icon">' +
+            '<div id="temp">14°C</div>' +
+            '</div>' +
+            '<div>' +
+            '<div id="description">mist</div>' +
+            '<div>Barometer 1022 hPa</div>' +
+            '<div>Humidity 100 %</div>' +
+            '<div>Wind 3.6 m/s</div>' +
+            '</div>';
+
+        expect(document.getElementById('result-container').innerHTML)
+            .toEqual(expectedResult);
+    });
+});
+
+describe('submit function', () => {
+    test('submit should call getWeather and renderResult', async () => {
+        const event = {
+            target: [
+                { value: "correctCityName" }
+            ]
+        };
+        event.preventDefault = jest.fn();
+        
+        await submit(event);
+
+        expect(event.preventDefault).toBeCalled();
 
         const expectedResult =
             '<div id="icon-temp">' +
