@@ -2,6 +2,7 @@ jest.mock('../weatherGetter.js');
 
 const { submit, renderResult } = require('../main');
 const { bodyHtml } = require('../setupJest');
+const { getWeather } = require('../weatherGetter');
 
 beforeEach(() => {
     document.body.innerHTML = bodyHtml;
@@ -141,7 +142,7 @@ describe('renderResult function', () => {
 });
 
 describe('submit function', () => {
-    test('submit should call getWeather and renderResult', async () => {
+    test('submit should call getWeather and render result', async () => {
         const event = {
             target: [
                 { value: "correctCityName" }
@@ -152,6 +153,7 @@ describe('submit function', () => {
         await submit(event);
 
         expect(event.preventDefault).toBeCalled();
+        expect(getWeather).toBeCalled();
 
         const expectedResult =
             '<div id="icon-temp">' +

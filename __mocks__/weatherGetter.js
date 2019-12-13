@@ -1,4 +1,4 @@
-getWeather =jest.fn(cityName => {
+getWeather = jest.fn(cityName => {
     if (cityName === 'correctCityName') {
         return Promise.resolve({
             isOk: true,
